@@ -119,6 +119,7 @@ const colors = {
 
 
 const printIcons = (arr, container) =>{
+	container.innerHTML = "";
 	arr.forEach(
 		(elm) =>{
 			const {name, family, prefix, color} = elm;
@@ -147,19 +148,40 @@ const coloredIcons = icons.map(
 );
 
 printIcons(coloredIcons, containerIcons);
-// icons.forEach(
-// 	(elm) =>{
-// 		if(icons.includes(coloredIcons)){
-// 			coloredIcons.push(icons);
-// 		}
-// 	}
-// )
-
-console.log(coloredIcons);
-
-
-
 
 
 // Milestone 3
 // Creiamo una select con i tipi di icone e usiamola per filtrare le icone
+const catIcons = [];
+icons.forEach(
+	(elm)=>{
+		if(catIcons.includes(elm.category) == false){
+			catIcons.push(elm.category);
+		}
+	}
+);
+
+const categories = document.getElementById("category");
+catIcons.forEach(
+	(elm)=>{
+		categories.innerHTML += `<option value="${elm}">${elm}</option>`;
+	}
+);
+
+categories.addEventListener("change",
+	()=>{
+		const filterdIcons = coloredIcons.filter(
+			(elm) => {
+				if(categories.value == ""){
+					return true;
+				}
+				if(elm.category == categories.value){
+					return true;
+				}
+				return false;
+			}
+		);
+		printIcons(filterdIcons, containerIcons);
+	}
+);
+
